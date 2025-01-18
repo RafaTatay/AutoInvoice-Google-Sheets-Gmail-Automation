@@ -17,13 +17,17 @@ def main():
         print(f"- Format in F12: {date_result['format_updated']}")
         
         # Export to PDF and send email
-        recipient_email = "example@gmail.com"
-        result = sheets.export_and_email_pdf(recipient_email)
+        recipient_emails = [
+            "example1@gmail.com",
+            "example2@gmail.com",
+            "example3@gmail.com"
+        ]
+        result = sheets.export_and_email_pdf(recipient_emails)
         
         print(f"\nInvoice processed successfully:")
         print(f"- PDF saved as: {result['filename']}")
         print(f"- Location: {result['filepath']}")
-        print(f"- Email sent to: {result['recipient']}")
+        print(f"- Email sent to: {', '.join(result['recipients'])}")
         
         print("\nProcess completed successfully!")
         

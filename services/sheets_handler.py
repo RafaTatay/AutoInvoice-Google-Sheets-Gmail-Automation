@@ -28,7 +28,7 @@ class SheetsHandler:
         self.sheets_service = build('sheets', 'v4', credentials=creds)
         self.drive_service = build('drive', 'v3', credentials=creds)
 
-    def export_and_email_pdf(self, recipient_email: str) -> Dict[str, any]:
+    def export_and_email_pdf(self, recipient_emails: list[str]) -> Dict[str, any]:
         """Exports the sheet as PDF and sends it via email"""
         try:
             # First export the PDF
@@ -39,8 +39,8 @@ class SheetsHandler:
                 pdf_content = f.read()
             
             # Send via email
-            self.email_sender.send_pdf_by_email(
-                recipient_email=recipient_email,
+            email_result = self.email_sender.send_pdf_by_email(
+                recipient_emails=recipient_emails,
                 pdf_buffer=pdf_content,
                 filename=export_result['filename']
             )
@@ -49,17 +49,17 @@ class SheetsHandler:
                 "success": True,
                 "filename": export_result['filename'],
                 "filepath": export_result['filepath'],
-                "email_sent": True,
-                "recipient": recipient_email
+                "email_sent": email_result["success"],
+                "recipients": email_result["recipients"]
             }
         except Exception as e:
             raise Exception(f"Error in export and email process: {str(e)}")
 
     def export_to_pdf(self) -> Dict[str, str]:
-        """Exports the sheet as PDF with the format YYYY_MM.pdf"""
+        """Exports the sheet as PDF with the format YYYY_MM_Orange_Pill.pdf"""
         try:
             current_date = datetime.now()
-            filename = f"{current_date.strftime('%Y_%m')}.pdf"
+            filename = f"{current_date.strftime('%Y_%m')}_Orange_Pill.pdf"
             filepath = os.path.join(self.STORAGE_DIR, filename)
 
             # Export the spreadsheet as PDF

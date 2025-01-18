@@ -40,11 +40,15 @@ class EmailSender:
                 pickle.dump(creds, token)
         return creds
 
-    def send_pdf_by_email(self, recipient_email: str, pdf_buffer: bytes, 
-                         filename: str = "report.pdf") -> bool:
+    def send_pdf_by_email(self, recipient_emails: list[str], pdf_buffer: bytes, 
+                         filename: str = "report.pdf") -> dict:
         try:
+            # Convert single email to list if string is provided
+            if isinstance(recipient_emails, str):
+                recipient_emails = [recipient_emails]
+            
             message = MIMEMultipart()
-            message['To'] = recipient_email
+            message['To'] = ', '.join(recipient_emails)  # Join all emails with comma
             message['Subject'] = "Example Subject"
 
             # Add body text
@@ -67,10 +71,17 @@ class EmailSender:
                     body={'raw': raw}
                 ).execute())
                 print(f'Message Id: {message["id"]}')
-                return True
+                return {
+                    "success": True,
+                    "message_id": message["id"],
+                    "recipients": recipient_emails
+                }
             except Exception as error:
                 print(f'An error occurred: {error}')
-                return False
+                return {
+                    "success": False,
+                    "error": str(error)
+                }
 
         except Exception as e:
             raise Exception(f"Error preparing email: {str(e)}") 
