@@ -56,10 +56,10 @@ class SheetsHandler:
             raise Exception(f"Error in export and email process: {str(e)}")
 
     def export_to_pdf(self) -> Dict[str, str]:
-        """Exports the sheet as PDF with the format YYYY_MM_Orange_Pill.pdf"""
+        """Exports the sheet as PDF with the format YYYY_MM.pdf"""
         try:
             current_date = datetime.now()
-            filename = f"{current_date.strftime('%Y_%m')}_Orange_Pill.pdf"
+            filename = f"{current_date.strftime('%Y_%m')}.pdf"
             filepath = os.path.join(self.STORAGE_DIR, filename)
 
             # Export the spreadsheet as PDF

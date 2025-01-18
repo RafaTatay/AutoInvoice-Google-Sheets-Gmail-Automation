@@ -1,4 +1,7 @@
+from config.config import Config
 from services.sheets_handler import SheetsHandler
+import os
+import sys
 
 def main():
     try:

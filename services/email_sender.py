@@ -8,6 +8,7 @@ from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 import os
 import pickle
+from config.config import Config
 
 class EmailSender:
     def __init__(self):
