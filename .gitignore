@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+test/
+venv/
+.env
+
+
+# Credentials and sensitive data
+config/*
+!config/*.example.*
+*.pickle
+
+# Generated files
+storage/invoices/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store 
